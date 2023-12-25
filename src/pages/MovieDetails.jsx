@@ -1,19 +1,16 @@
-import { useEffect, useState, lazy, Suspense} from "react";
-import { Route, Routes, useLocation, useParams, Outlet } from "react-router-dom"
+import { useEffect, useState, Suspense, useRef} from "react";
+import { useLocation, useParams, Outlet } from "react-router-dom"
 import { getMovieById } from "services/api"
 import Notiflix from "notiflix";
 import { defaultImg } from "services/defaultImg"
 
 import { Info, Container, LinkStyled, Description, DescrInform, SpanStyled, Score, Additional, LinksList, NavLinkStyled } from "./MovieDetails.styled";
 
-const Cast = lazy(() => import('../components/Cast/Cast'))
-const Reviews = lazy(() => import('../components/Reviews/Reviews'))
-
 const MovieDetails = () => {
     const [data, setData] = useState([])
     const { movieId } = useParams()
     const location = useLocation()
-    const backLink = location.state?.from ?? '/';
+    const backlink = useRef(location.state?.from ?? '/');
 
     useEffect(() => {
         const details = async () => {
@@ -30,7 +27,7 @@ const MovieDetails = () => {
 
     return (
       <Container>
-        <LinkStyled to={backLink}>↩ Back</LinkStyled>
+        <LinkStyled to={backlink.current}>↩ Back</LinkStyled>
         {data && (   
         <>
             <Info>
@@ -60,10 +57,6 @@ const MovieDetails = () => {
                 </div>
             <Suspense fallback={<div>Loading...</div>}>
             <Outlet />
-            <Routes>
-                <Route path="cast" element={<Cast />} />
-                <Route path="reviews" element={<Reviews/>} />
-            </Routes>  
             </Suspense>
         </>
         )} 
