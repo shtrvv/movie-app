@@ -7,7 +7,7 @@ import { defaultImg } from "services/defaultImg"
 import { Info, Container, LinkStyled, Description, DescrInform, SpanStyled, Score, Additional, LinksList, NavLinkStyled } from "./MovieDetails.styled";
 
 const Cast = lazy(() => import('../components/Cast/Cast'))
-const Reviews = lazy(() => import('../../components/Reviews/Reviews'))
+const Reviews = lazy(() => import('../components/Reviews/Reviews'))
 
 const MovieDetails = () => {
     const [data, setData] = useState([])
